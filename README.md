@@ -22,6 +22,8 @@ avoid overrunning the input buffer.
 - Save and load slot profiles as JSON files (Don't save your passwords dude)
 - Clipboard preview with character count
 
+![Clipboard Typer](screenshot.png)
+
 ## Requirements
 
 - Python 3.7+
