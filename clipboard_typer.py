@@ -88,7 +88,7 @@ def set_highlight(index):
 def delayed_paste():
     global is_typing, stop_requested
     stop_requested = False
-    delay_secs = delay_var.get() / 10000.0
+    delay_secs = delay_var.get() / 1000.0
     start_delay = start_delay_var.get()
 
     for i in range(start_delay, 0, -1):
@@ -96,7 +96,7 @@ def delayed_paste():
             root.after(0, reset_button)
             return
         root.after(0, lambda n=i: type_btn.config(
-            text=f"Starting in {n}s...", bg='#e8a020', fg='black'))
+            text=f"Starting in {n}s...", bg='#e8a020'))
         time.sleep(1)
 
     text = get_clipboard()
@@ -108,17 +108,24 @@ def delayed_paste():
 
     is_typing = True
     root.after(0, lambda: stop_btn.pack(side='right', padx=5))
-    root.after(0, lambda: type_btn.config(text="● Typing...", bg='#c0392b', fg='black'))
+    root.after(0, lambda: type_btn.config(text="● Typing...", bg='#c0392b'))
 
-    for idx, char in enumerate(safe_text):
+    chunk_size = 10  # tune this — larger = faster, less responsive stop
+    for i in range(0, len(safe_text), chunk_size):
         if stop_requested:
             break
-        root.after(0, lambda i=idx: set_highlight(i))
-        pyautogui.typewrite(char, interval=0)
-        if delay_var.get() > 1:
-            time.sleep(delay_secs)
+        chunk = safe_text[i:i + chunk_size]
+        # highlight the current chunk
+        root.after(0, lambda start=i, end=i + len(chunk): (
+            text_box.config(state='normal'),
+            text_box.tag_remove('highlight', '1.0', tk.END),
+            text_box.tag_add('highlight', f"1.0 + {start} chars", f"1.0 + {end} chars"),
+            text_box.see(f"1.0 + {start} chars"),
+            text_box.config(state='disabled')
+        ))
 
-    root.after(0, lambda: set_highlight(-1))
+        pyautogui.typewrite(chunk, interval=delay_secs)
+
     is_typing = False
     root.after(0, lambda: stop_btn.pack_forget())
     root.after(0, reset_button)
