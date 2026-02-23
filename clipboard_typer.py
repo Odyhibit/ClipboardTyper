@@ -88,7 +88,7 @@ def set_highlight(index):
 def delayed_paste():
     global is_typing, stop_requested
     stop_requested = False
-    delay_secs = delay_var.get() / 1000.0
+    delay_secs = delay_var.get() / 10000.0
     start_delay = start_delay_var.get()
 
     for i in range(start_delay, 0, -1):
@@ -178,12 +178,12 @@ slider_frame.pack(fill='x', padx=10, pady=(8, 2))
 
 tk.Label(slider_frame, text="Delay(s):").pack(side='left')
 start_delay_var = tk.IntVar(value=3)
-tk.Scale(slider_frame, from_=1, to=10, orient='horizontal',
+tk.Scale(slider_frame, from_=1, to=100, orient='horizontal',
          variable=start_delay_var, length=100).pack(side='left', padx=(0, 15))
 
 tk.Label(slider_frame, text="Keystroke(ms):").pack(side='left')
 delay_var = tk.IntVar(value=50)
-tk.Scale(slider_frame, from_=10, to=200, orient='horizontal',
+tk.Scale(slider_frame, from_=1, to=200, orient='horizontal',
          variable=delay_var, length=150).pack(side='left', padx=(0, 15))
 
 # --- Row 2: Buttons ---
