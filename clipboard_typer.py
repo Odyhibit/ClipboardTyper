@@ -6,6 +6,7 @@ import pyperclip
 import pyautogui
 import threading
 import time
+from PIL import Image, ImageTk
 
 SLOT_COUNT = 10
 
@@ -143,6 +144,8 @@ def start_typing():
 # --- Build UI ---
 root = tk.Tk()
 root.title("Clipboard Typer")
+img = ImageTk.PhotoImage(Image.open("icon.png"))
+root.iconphoto(True, img)
 is_typing = False
 stop_requested = False
 

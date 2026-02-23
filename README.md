@@ -14,12 +14,12 @@ avoid overrunning the input buffer.
 
 - Simulates typing of clipboard contents with adjustable keystroke delay
 - Configurable start delay to give you time to focus the target window
-- Live character highlight in the clipboard preview shows typing progress
+- Live highlighting in the clipboard preview shows typing progress
 - Stop button to abort mid-typing
 - 10 quick-access slots for frequently used strings (IPs, commands, passwords, etc.)
 - Clicking a slot copies it to the clipboard; previous clipboard content is saved
-  to the next empty slot automatically, unless it is already present
-- Save and load slot profiles as JSON files
+  to the next empty slot automatically.
+- Save and load slot profiles as JSON files (Don't save your passwords dude)
 - Clipboard preview with character count
 
 ## Requirements
