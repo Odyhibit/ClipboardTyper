@@ -7,7 +7,7 @@ import pyautogui
 import threading
 import time
 
-SLOT_COUNT = 6
+SLOT_COUNT = 10
 
 
 def save_slots():
@@ -96,7 +96,7 @@ def delayed_paste():
             root.after(0, reset_button)
             return
         root.after(0, lambda n=i: type_btn.config(
-            text=f"Starting in {n}s...", bg='#e8a020'))
+            text=f"Starting in {n}s...", bg='#e8a020', fg='black'))
         time.sleep(1)
 
     text = get_clipboard()
@@ -108,14 +108,15 @@ def delayed_paste():
 
     is_typing = True
     root.after(0, lambda: stop_btn.pack(side='right', padx=5))
-    root.after(0, lambda: type_btn.config(text="● Typing...", bg='#c0392b'))
+    root.after(0, lambda: type_btn.config(text="● Typing...", bg='#c0392b', fg='black'))
 
     for idx, char in enumerate(safe_text):
         if stop_requested:
             break
         root.after(0, lambda i=idx: set_highlight(i))
         pyautogui.typewrite(char, interval=0)
-        time.sleep(delay_secs)
+        if delay_var.get() > 1:
+            time.sleep(delay_secs)
 
     root.after(0, lambda: set_highlight(-1))
     is_typing = False
@@ -127,7 +128,7 @@ def request_stop():
     stop_requested = True
 
 def reset_button():
-    type_btn.config(text="▶  Type Clipboard", bg='#4a7', fg='white')
+    type_btn.config(text="▶  Type Clipboard", bg='#4a7', fg='black')
 
 def start_typing():
     threading.Thread(target=delayed_paste, daemon=True).start()
@@ -157,7 +158,7 @@ for i in range(SLOT_COUNT):
     entry.pack(side='left', padx=(2, 4), fill='x', expand=True)
     entry.bind("<Button-1>", lambda e, idx=i: slot_clicked(idx))
 
-    clear_btn = tk.Button(row, text="✕", width=2, fg='red',
+    clear_btn = tk.Button(row, text="✕", width=2, fg='red',  bg='#d9d9d9',
                           command=lambda idx=i: clear_slot(idx))
     clear_btn.pack(side='left')
 
@@ -195,12 +196,12 @@ tk.Button(btn_frame, text="📂 Load", command=load_slots).pack(side='left', pad
 
 stop_btn = tk.Button(btn_frame, text="■  Stop",
                      command=request_stop,
-                     bg='#c0392b', fg='white', padx=8)
+                     bg='red', fg='black', padx=8)
 # hidden until typing starts
 
 type_btn = tk.Button(btn_frame, text="▶  Type Clipboard",
                      command=start_typing,
-                     bg='#4a7', fg='white', padx=8)
+                     bg='#4a7', fg='black', padx=8)
 type_btn.pack(side='right', padx=5)
 
 auto_refresh()
