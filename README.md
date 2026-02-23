@@ -33,7 +33,7 @@ avoid overrunning the input buffer.
 Install dependencies:
 
 ```
-pip install pyautogui pyperclip
+pip install pyautogui pyperclip pillow
 ```
 
 ### Linux
