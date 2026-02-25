@@ -9,6 +9,7 @@ import time
 from PIL import Image, ImageTk
 
 SLOT_COUNT = 10
+chunk_size = 10  # tune this — larger = faster, less responsive stop
 
 
 def save_slots():
@@ -111,7 +112,7 @@ def delayed_paste():
     root.after(0, lambda: stop_btn.pack(side='right', padx=5))
     root.after(0, lambda: type_btn.config(text="● Typing...", bg='#c0392b'))
 
-    chunk_size = 10  # tune this — larger = faster, less responsive stop
+
     for i in range(0, len(safe_text), chunk_size):
         if stop_requested:
             break
